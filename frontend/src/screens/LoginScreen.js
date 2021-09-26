@@ -17,7 +17,9 @@ const LoginScreen = ({ location, history }) => {
   const userLogin = useSelector((state) => state.userLogin)
   const { loading, error, userInfo } = userLogin
 
-  const redirect = location.search ? location.search.split('=')[1] : '/'
+  const redirect = location.search
+    ? location.search.split('=')[1]
+    : '/dashboard'
 
   useEffect(() => {
     if (userInfo) {
@@ -32,7 +34,7 @@ const LoginScreen = ({ location, history }) => {
 
   return (
     <FormContainer>
-      <h1>Login</h1>
+      <h3>Login</h3>
       {error && <Message variant='danger'>{error}</Message>}
       {loading && <Loader />}
       <Form onSubmit={submitHandler}>
