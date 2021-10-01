@@ -169,18 +169,96 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 		user.personalEmail = req.body.personalEmail || user.personalEmail
 		user.gender = req.body.gender || user.gender
 		user.maritalStatus = req.body.maritalStatus || user.maritalStatus
+
+		if (req.body.password) {
+			user.password = req.body.password
+		}
+
+		const updatedUser = await user.save()
+
+		res.json({
+			_id: updatedUser._id,
+			title: updatedUser.title,
+			name: updatedUser.name,
+			mobile: updatedUser.mobile,
+			address: updatedUser.address,
+			personalEmail: updatedUser.personalEmail,
+			gender: updatedUser.gender,
+			maritalStatus: updatedUser.maritalStatus,
+			token: generateToken(updatedUser._id),
+		})
+	} else {
+		res.status(404)
+		throw new Error('User not found')
+	}
+})
+
+// @desc    Get all users
+// @route   GET /api/users
+// @access  Private/Admin
+const getUsers = asyncHandler(async (req, res) => {
+	const users = await User.find({})
+	res.json(users)
+})
+
+// @desc    Delete user
+// @route   DELETE /api/users/:id
+// @access  Private/Admin
+const deleteUser = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id)
+
+	if (user) {
+		await user.remove()
+		res.json({ message: 'User removed' })
+	} else {
+		res.status(404)
+		throw new Error('User not found')
+	}
+})
+
+// @desc    Get user by id
+// @route   GET /api/users/:id
+// @access  Private/Admin
+const getUserById = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id).select('-password')
+
+	if (user) {
+		res.json(user)
+	} else {
+		res.status(404)
+		throw new Error('User not found')
+	}
+})
+
+// @desc    Update user
+// @route   PUT /api/users/:id
+// @access  Private/Admin
+const updateUser = asyncHandler(async (req, res) => {
+	const user = await User.findById(req.params.id)
+
+	if (user) {
+		user.title = req.body.title || user.title
+		user.name = req.body.name || user.name
+		user.mobile = req.body.mobile || user.mobile
+		user.address = req.body.address || user.address
+		user.personalEmail = req.body.personalEmail || user.personalEmail
+		user.gender = req.body.gender || user.gender
+		user.maritalStatus = req.body.maritalStatus || user.maritalStatus
 		user.department = req.body.department || user.department
 		user.designation = req.body.designation || user.designation
 		user.company = req.body.company || user.company
 		user.employedSince = req.body.employedSince || user.employedSince
 		user.workTimings = req.body.workTimings || user.workTimings
 		user.reportingTo = req.body.reportingTo || user.reportingTo
-		user.isEmployer = req.body.isEmployer || user.isEmployer
-		user.isAdmin = req.body.isAdmin || user.isAdmin
-		user.isActive = req.body.isActive || user.isActive
 
-		if (req.body.password) {
-			user.password = req.body.password
+		if (req.body.isEmployer !== undefined) {
+			user.isEmployer = req.body.isEmployer
+		}
+		if (req.body.isAdmin !== undefined) {
+			user.isAdmin = req.body.isAdmin
+		}
+		if (req.body.isActive !== undefined) {
+			user.isActive = req.body.isActive
 		}
 
 		const updatedUser = await user.save()
@@ -204,7 +282,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 			isEmployer: updatedUser.isEmployer,
 			isAdmin: updatedUser.isAdmin,
 			isActive: updatedUser.isActive,
-			token: generateToken(updatedUser._id),
 		})
 	} else {
 		res.status(404)
@@ -212,4 +289,13 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 	}
 })
 
-export { authUser, registerUser, getUserProfile, updateUserProfile }
+export {
+	authUser,
+	registerUser,
+	getUserProfile,
+	updateUserProfile,
+	getUsers,
+	deleteUser,
+	getUserById,
+	updateUser,
+}

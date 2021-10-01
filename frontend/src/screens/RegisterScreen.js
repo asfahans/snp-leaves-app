@@ -24,9 +24,8 @@ const RegisterScreen = ({ location, history }) => {
 	const [employedSince, setEmployedSince] = useState('')
 	const [workTimings, setWorkTimings] = useState('')
 	const [reportingTo, setReportingTo] = useState('')
-	const [isEmployer, setIsEmployer] = useState('')
-	const [isAdmin, setIsAdmin] = useState('')
-	const [isActive, setIsActive] = useState('')
+	const [isEmployer, setIsEmployer] = useState(false)
+	const [isAdmin, setIsAdmin] = useState(false)
 	const [message, setMessage] = useState(null)
 
 	const dispatch = useDispatch()
@@ -85,8 +84,7 @@ const RegisterScreen = ({ location, history }) => {
 					workTimings,
 					reportingTo,
 					isEmployer,
-					isAdmin,
-					isActive
+					isAdmin
 				)
 			)
 		}
@@ -276,16 +274,6 @@ const RegisterScreen = ({ location, history }) => {
 						placeholder="Enter Is Admin"
 						value={isAdmin}
 						onChange={(e) => setIsAdmin(e.target.value)}
-					></Form.Control>
-				</Form.Group>
-
-				<Form.Group controlId="isActive">
-					<Form.Label>Is Active</Form.Label>
-					<Form.Control
-						type="text"
-						placeholder="Enter Is Active"
-						value={isActive}
-						onChange={(e) => setIsActive(e.target.value)}
 					></Form.Control>
 				</Form.Group>
 

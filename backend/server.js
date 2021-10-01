@@ -6,6 +6,7 @@ import { notFound, errorHandler } from './middlewares/errorMiddleware.js'
 import connectDB from './config/db.js'
 //
 import userRoutes from './routes/userRoutes.js'
+import leaveRoutes from './routes/leaveRoutes.js'
 
 dotenv.config()
 
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 })
 
 app.use('/api/users', userRoutes)
+app.use('/api/leaves', leaveRoutes)
 
 // Not Found Middleware
 app.use(notFound)

@@ -21,9 +21,13 @@ const leaveSchema = mongoose.Schema(
 		},
 		hodApproval: {
 			type: Boolean,
+			require: true,
+			default: false,
 		},
 		finalApproval: {
 			type: Boolean,
+			require: true,
+			default: false,
 		},
 		applicationResent: {
 			type: Boolean,

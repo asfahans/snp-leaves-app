@@ -9,22 +9,26 @@ import DashboardScreen from './screens/DashboardScreen'
 import LoginScreen from './screens/LoginScreen'
 import RegisterScreen from './screens/RegisterScreen'
 import ProfileScreen from './screens/ProfileScreen'
+import UserListScreen from './screens/UserListScreen'
+import UserEditScreen from './screens/UserEditScreen'
 
 const App = () => {
-  return (
-    <Router>
-      <Header />
-      <main className='py-3'>
-        <Container fluid>
-          <Route path='/' component={LoginScreen} exact />
-          <Route path='/register' component={RegisterScreen} />
-          <Route path='/profile' component={ProfileScreen} />
-          <Route path='/dashboard' component={DashboardScreen} />
-        </Container>
-      </main>
-      <Footer />
-    </Router>
-  )
+	return (
+		<Router>
+			<Header />
+			<main className="py-3">
+				<Container fluid>
+					<Route path="/register" component={RegisterScreen} />
+					<Route path="/profile" component={ProfileScreen} />
+					<Route path="/dashboard" component={DashboardScreen} />
+					<Route path="/admin/userlist" component={UserListScreen} />
+					<Route path="/admin/user/:id/edit" component={UserEditScreen} />
+					<Route path="/" component={LoginScreen} exact />
+				</Container>
+			</main>
+			<Footer />
+		</Router>
+	)
 }
 
 export default App
