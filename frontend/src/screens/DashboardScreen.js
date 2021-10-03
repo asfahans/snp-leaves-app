@@ -1,25 +1,60 @@
 import React, { useEffect } from 'react'
-import { useSelector } from 'react-redux'
+import { Table } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
 //
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import { listLeaves } from '../redux/actions/leaveActions'
+import Leave from '../components/Leave'
 
-const DashboardScreen = ({ history }) => {
+const DashboardScreen = ({ history, match }) => {
+  const dispatch = useDispatch()
+
+  const leaveList = useSelector((state) => state.leaveList)
+  const { loading, error, leaves } = leaveList
+
   const userLogin = useSelector((state) => state.userLogin)
-  const { loading, error, userInfo } = userLogin
+  const { userInfo } = userLogin
 
   useEffect(() => {
-    if (!userInfo) {
+    if (userInfo) {
+      dispatch(listLeaves())
+    } else {
       history.push('/')
     }
-  }, [history, userInfo])
+  }, [dispatch, history, userInfo])
 
   return (
-    <div>
-      {error && <Message variant='danger'>{error}</Message>}
-      {loading && <Loader />}
+    <>
       <h4>Dashboard</h4>
-    </div>
+      {loading ? (
+        <Loader />
+      ) : error ? (
+        <Message variant='danger'>{error}</Message>
+      ) : (
+        <Table striped bordered hover responsive className='table-sm'>
+          <thead>
+            <tr>
+              <th>Sr.No.</th>
+              <th>Name</th>
+              <th>Designation</th>
+              <th>Department</th>
+              <th>From</th>
+              <th>To</th>
+              <th>No. of days</th>
+              <th>Approved by</th>
+              <th>Final approval by</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {leaves.map((leave) => (
+              <Leave leave={leave} key={leave._id} />
+            ))}
+          </tbody>
+        </Table>
+      )}
+    </>
   )
 }
 

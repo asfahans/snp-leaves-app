@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
-import { Form, Button, Row, Col } from 'react-bootstrap'
+import { Form, Button, Table, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 //
 import Message from '../components/Message'
 import Loader from '../components/Loader'
+import Leave from '../components/Leave'
 import { getUserDetails, updateUserProfile } from '../redux/actions/userActions'
 
 const ProfileScreen = ({ location, history }) => {
@@ -29,6 +30,9 @@ const ProfileScreen = ({ location, history }) => {
 
   const userUpdateProfile = useSelector((state) => state.userUpdateProfile)
   const { success } = userUpdateProfile
+
+  const leaveList = useSelector((state) => state.leaveList)
+  const { loading: leaveListLoading, error: leaveListError, leaves } = leaveList
 
   useEffect(() => {
     if (!userInfo) {
@@ -263,6 +267,33 @@ const ProfileScreen = ({ location, history }) => {
       </Col>
       <Col md={10}>
         <h4>My Leaves</h4>
+        {leaveListLoading ? (
+          <Loader />
+        ) : leaveListError ? (
+          <Message variant='danger'>{leaveListError}</Message>
+        ) : (
+          <Table striped bordered hover responsive className='table-sm'>
+            <thead>
+              <tr>
+                <th>Sr.No.</th>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Department</th>
+                <th>From</th>
+                <th>To</th>
+                <th>No. of days</th>
+                <th>Approved by</th>
+                <th>Final approval by</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {leaves.map((leave) => (
+                <Leave leave={leave} key={leave._id} />
+              ))}
+            </tbody>
+          </Table>
+        )}
       </Col>
     </Row>
   )
