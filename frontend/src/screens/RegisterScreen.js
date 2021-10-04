@@ -30,16 +30,14 @@ const RegisterScreen = ({ location, history }) => {
 
 	const dispatch = useDispatch()
 
-	const userRegister = useSelector((state) => state.userRegister)
-	const { loading, error, userInfo } = userRegister
-
-	const redirect = location.search ? location.search.split('=')[1] : '/'
+	const userLogin = useSelector((state) => state.userLogin)
+	const { loading, error, userInfo } = userLogin
 
 	useEffect(() => {
-		if (userInfo) {
-			history.push(redirect)
+		if (!userInfo || !userInfo.isAdmin) {
+			history.push('/')
 		}
-	}, [history, userInfo, redirect])
+	}, [dispatch, history, userInfo])
 
 	const submitHandler = (e) => {
 		e.preventDefault()

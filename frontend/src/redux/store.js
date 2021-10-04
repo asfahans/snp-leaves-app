@@ -3,41 +3,47 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 //
 import {
-  userLoginReducer,
-  userRegisterReducer,
-  userDetailsReducer,
-  userUpdateProfileReducer,
-  userListReducer,
-  userDeleteReducer,
-  userUpdateReducer,
+	userLoginReducer,
+	userRegisterReducer,
+	userDetailsReducer,
+	userUpdateProfileReducer,
+	userListReducer,
+	userDeleteReducer,
+	userUpdateReducer,
 } from './reducers/userReducers'
-import { leaveListReducer } from './reducers/leaveReducer'
+import {
+	leaveListReducer,
+	leaveListMyReducer,
+	leaveCreateReducer,
+} from './reducers/leaveReducer'
 
 const reducer = combineReducers({
-  userLogin: userLoginReducer,
-  userRegister: userRegisterReducer,
-  userDetails: userDetailsReducer,
-  userUpdateProfile: userUpdateProfileReducer,
-  userList: userListReducer,
-  userDelete: userDeleteReducer,
-  userUpdate: userUpdateReducer,
-  leaveList: leaveListReducer,
+	userLogin: userLoginReducer,
+	userRegister: userRegisterReducer,
+	userDetails: userDetailsReducer,
+	userUpdateProfile: userUpdateProfileReducer,
+	userList: userListReducer,
+	userDelete: userDeleteReducer,
+	userUpdate: userUpdateReducer,
+	leaveList: leaveListReducer,
+	leaveCreate: leaveCreateReducer,
+	leaveListMy: leaveListMyReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')
-  ? JSON.parse(localStorage.getItem('userInfo'))
-  : null
+	? JSON.parse(localStorage.getItem('userInfo'))
+	: null
 
 const initialState = {
-  userLogin: { userInfo: userInfoFromStorage },
+	userLogin: { userInfo: userInfoFromStorage },
 }
 
 const middleware = [thunk]
 
 const store = createStore(
-  reducer,
-  initialState,
-  composeWithDevTools(applyMiddleware(...middleware))
+	reducer,
+	initialState,
+	composeWithDevTools(applyMiddleware(...middleware))
 )
 
 export default store
