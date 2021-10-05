@@ -13,6 +13,7 @@ import UserListScreen from './screens/UserListScreen'
 import UserEditScreen from './screens/UserEditScreen'
 import LeaveListScreen from './screens/LeaveListScreen'
 import LeaveCreateScreen from './screens/LeaveCreateScreen'
+import LeaveEditScreen from './screens/LeaveEditScreen'
 
 const App = () => {
 	return (
@@ -26,6 +27,7 @@ const App = () => {
 					<Route path="/admin/register" component={RegisterScreen} />
 					<Route path="/admin/userlist" component={UserListScreen} />
 					<Route path="/admin/user/:id/edit" component={UserEditScreen} />
+					<Route path="/admin/leave/:id/edit" component={LeaveEditScreen} />
 					<Route path="/admin/leavelist" component={LeaveListScreen} />
 					<Route path="/" component={LoginScreen} exact />
 				</Container>

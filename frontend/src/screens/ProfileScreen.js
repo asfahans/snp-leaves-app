@@ -291,11 +291,12 @@ const ProfileScreen = ({ location, history }) => {
 								<th>Approved by</th>
 								<th>Final approval by</th>
 								<th>Status</th>
+								<th></th>
 							</tr>
 						</thead>
 						<tbody>
 							{leaves.map((leave) => (
-								<Leave leave={leave} key={leave._id} />
+								<Leave leave={leave} key={leave._id} isAdminScreen="false" />
 							))}
 						</tbody>
 					</Table>

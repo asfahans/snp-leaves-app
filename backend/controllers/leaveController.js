@@ -39,4 +39,43 @@ const getMyLeaves = asyncHandler(async (req, res) => {
 	res.json(leaves)
 })
 
-export { createLeave, getLeaves, getMyLeaves }
+// @desc    Get leave by id
+// @route   GET /api/leaves/:id
+// @access  Private
+const getLeaveById = asyncHandler(async (req, res) => {
+	const leave = await Leave.findById(req.params.id)
+
+	if (leave) {
+		res.json(leave)
+	} else {
+		res.status(404)
+		throw new Error('User not found')
+	}
+})
+
+// @desc    Update leave
+// @route   PUT /api/leaves/:id/edit
+// @access  Private
+const updateLeave = asyncHandler(async (req, res) => {
+	const leave = await Leave.findById(req.params.id)
+
+	if (leave) {
+		leave.fromDate = req.body.fromDate || leave.fromDate
+		leave.toDate = req.body.toDate || leave.toDate
+		leave.reason = req.body.reason || leave.reason
+
+		const updatedLeave = await leave.save()
+
+		res.json({
+			_id: updatedLeave._id,
+			fromDate: updatedLeave.fromDate,
+			toDate: updatedLeave.toDate,
+			reason: updatedLeave.reason,
+		})
+	} else {
+		res.status(404)
+		throw new Error('Leave not found')
+	}
+})
+
+export { createLeave, getLeaves, getMyLeaves, getLeaveById, updateLeave }

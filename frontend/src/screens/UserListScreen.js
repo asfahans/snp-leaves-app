@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
-import { LinkContainer } from 'react-router-bootstrap'
-import { Table, Button } from 'react-bootstrap'
+
+import { Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 //
 import Message from '../components/Message'
 import Loader from '../components/Loader'
-import { listUsers, deleteUser } from '../redux/actions/userActions'
+import { listUsers } from '../redux/actions/userActions'
+import User from '../components/User'
 
 const UserListScreen = ({ history }) => {
 	const dispatch = useDispatch()
@@ -26,12 +27,6 @@ const UserListScreen = ({ history }) => {
 			history.push('/')
 		}
 	}, [dispatch, history, userInfo, successDelete])
-
-	const deleteHandler = (id) => {
-		if (window.confirm('Are you sure?')) {
-			dispatch(deleteUser(id))
-		}
-	}
 
 	return (
 		<>
@@ -57,36 +52,7 @@ const UserListScreen = ({ history }) => {
 					</thead>
 					<tbody>
 						{users.map((user) => (
-							<tr key={user._id}>
-								<td>{1}</td>
-								<td>{user.title + ' ' + user.name}</td>
-								<td>{user.officialEmail}</td>
-								<td>{user.gender}</td>
-								<td>{user.designation}</td>
-								<td>{user.department}</td>
-								<td>{user.reportingTo}</td>
-								<td>
-									{user.isAdmin ? (
-										<i className="fas fa-check" style={{ color: 'green' }}></i>
-									) : (
-										<i className="fas fa-times" style={{ color: 'red' }}></i>
-									)}
-								</td>
-								<td>
-									<LinkContainer to={`/admin/user/${user._id}/edit`}>
-										<Button variant="light" className="btn-sm">
-											<i className="fas fa-edit"></i>
-										</Button>
-									</LinkContainer>
-									<Button
-										variant="danger"
-										className="btn-sm"
-										onClick={() => deleteHandler(user._id)}
-									>
-										<i className="fas fa-trash"></i>
-									</Button>
-								</td>
-							</tr>
+							<User user={user} key={user._id} />
 						))}
 					</tbody>
 				</Table>

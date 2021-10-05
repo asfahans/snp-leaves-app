@@ -10,7 +10,7 @@ const Loader = () => {
 					<Col md={2} className="py-xxl-5">
 						<Image
 							alt=""
-							src="./images/loader.gif"
+							src="/images/loader.gif"
 							width={'250px'}
 							className=" my-xxl-5"
 						/>

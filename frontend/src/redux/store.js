@@ -15,6 +15,7 @@ import {
 	leaveListReducer,
 	leaveListMyReducer,
 	leaveCreateReducer,
+	leaveDetailsReducer,
 } from './reducers/leaveReducer'
 
 const reducer = combineReducers({
@@ -25,9 +26,11 @@ const reducer = combineReducers({
 	userList: userListReducer,
 	userDelete: userDeleteReducer,
 	userUpdate: userUpdateReducer,
+	//
 	leaveList: leaveListReducer,
 	leaveCreate: leaveCreateReducer,
 	leaveListMy: leaveListMyReducer,
+	leaveDetails: leaveDetailsReducer,
 })
 
 const userInfoFromStorage = localStorage.getItem('userInfo')

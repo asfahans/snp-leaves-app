@@ -3,6 +3,9 @@ import {
 	LEAVE_CREATE_FAIL,
 	LEAVE_CREATE_REQUEST,
 	LEAVE_CREATE_SUCCESS,
+	LEAVE_DETAILS_FAIL,
+	LEAVE_DETAILS_REQUEST,
+	LEAVE_DETAILS_SUCCESS,
 	LEAVE_LIST_FAIL,
 	LEAVE_LIST_MY_FAIL,
 	LEAVE_LIST_MY_REQUEST,
@@ -123,3 +126,38 @@ export const createLeave =
 			})
 		}
 	}
+
+// Leave Details
+export const getLeaveDetails = (id) => async (dispatch, getState) => {
+	try {
+		dispatch({
+			type: LEAVE_DETAILS_REQUEST,
+		})
+
+		const {
+			userLogin: { userInfo },
+		} = getState()
+
+		const config = {
+			headers: {
+				//   'Content-Type': 'application/json',
+				Authorization: `Bearer ${userInfo.token}`,
+			},
+		}
+
+		const { data } = await axios.get(`/api/leaves/${id}`, config)
+
+		dispatch({
+			type: LEAVE_DETAILS_SUCCESS,
+			payload: data,
+		})
+	} catch (error) {
+		dispatch({
+			type: LEAVE_DETAILS_FAIL,
+			payload:
+				error.response && error.response.data.message
+					? error.response.data.message
+					: error.message,
+		})
+	}
+}
